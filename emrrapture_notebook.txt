@@ -161,3 +161,11 @@ ELF_142, P2, P8, only aligned from P2, alignment error, [mem_sam_pe] paired read
 -  ref_map worked! output in: ./ref_map_output_unfiltered/
 - I think I should follow Brendan's instructions for filtering .bams before running ref_map however
 - it may be possible to isolate loci we are interested in using the whitelist, but there seem to be multiple SNPs on each bait
+
+#04/21/2022
+- made new filterList files for ELF and PCC b/c I changed .bam names to run ref_map on the unfiltered bams (removed .sort.flt1)
+
+
+
+
+
