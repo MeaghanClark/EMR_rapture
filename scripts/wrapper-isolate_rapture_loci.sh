@@ -58,7 +58,7 @@ do
 			--time=12:00:00 \
 			$executable
 			
-	echo submitted a job to compute coverage at targeted loci from $alignment, reading targeted loci from $bed
+	echo submitted a job to filter $alignment, reading targeted loci from $bed
 	fi		
 done < $list_of_alignments
 
