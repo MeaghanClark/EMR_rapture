@@ -10,8 +10,8 @@
 #define variables:
 storagenode=/mnt/home/clarkm89 #path to top level of dir where input/output files live
 
-logfilesdir=logfiles_computecoverage #name of directory to create and then write log files to
-executable=./scripts/compute_coverage.sbatch #script to run 
+logfilesdir=logfiles_iso_rap #name of directory to create and then write log files to
+executable=./scripts/isolate_rapture_loci.sbatch #script to run 
 
 cpus=1 #number of CPUs to request/use per dataset
 ram_per_cpu=24G #amount of RAM to request/use per CPU CHANGE
