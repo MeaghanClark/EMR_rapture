@@ -1,0 +1,163 @@
+# NOTEBOOK FOR EMR RAPTURE DATA
+# Starting: 2/23/2022
+
+# 03/01/2022
+- Stacks is back after hpcc systems failure! Woohooo! 
+- starting things off with demultiplexing the data!
+
+# 03/03/2022
+- uploaded barcode information after verifying with lab notebook at KBS
+- need to run process_radtags separately for each library because barcodes are repeated. 
+- There are four duplicate samples: 
+	ELF_544
+	PCC_62
+	PCC_302
+	PCC_300
+	Each of these samples is labelled with the plate it was sequenced on (e.g. PCC_62_P3) 
+- There are twelve extraction negatives labelled (P#_EN)
+- Need to edit process radtags scripts to sequence on library at a time... maybe using the library number to loop through them?
+
+# 03/10/2022
+- Need to make sure I using Bait info when calling SNPs: 
+https://github.com/nerdbrained/darter_rapture/blob/master/Rapture_pipeline.md
+- look at what Brendan did! 
+
+# 03/11/2022
+- Editing process radtags scripts to process one library at a time
+- oh, I did this on 3/4
+- Next steps: (1) align sequences to reference using bwa mem (2) Align Rapture baits on reference genome and create .bed files (I think Brendan did this, but I will need to re-do with new reference genome) (3) Calculate coverage and filter .bam files according to .bed files, (4) run stacks ref_map (5) further analyses
+- need to decide if I should align with new or old Gibbs lab reference genome. If new, I need to re-align baits. I have .bed file for the baits, not fasta, but I think I could go from old .bed --> .fasta --> new .beds
+- In the meantime, I can align de-multiplexed sequences to A reference (new or old) using bwa mem and samtools --> need to find space on the hpcc for all those files (scratch and Rclone backup?) 
+
+# 03/14/2022
+- After talking with Brendan and Fitz, I will align to the new genome. I need to make a new .bed file that has the locations of the targetted loci in the updated genome.
+- I can make this .bed file using code from Brendan's github and a .fas file of the final baits sent to us by Arbor. This .bed file will show both neutral and functional loci, so I will need to take that into account later on. 
+- I could also filter the .bam file three times --> full set, spaced set, functional set -->  I think this makes the most sense. 
+- Immediate next step:
+	(1) align de-multiplexed .fq.gz files to the updated reference genome
+	(2) make .bed files (full, spaced, functional) for targetted loci based on updated reference genome
+	(3) calculate coverage of aligned .bam files
+	(4) filter .bam files according to .bed files (thrice)
+	(5) run stacks ref_map and  calculate coverage of aligned .bam files
+
+# 03/16/2022
+- After Bradburd lab meeting: Leonard thinks I can filter loci using the --white-list tag in the populations module of stacks instead of samtools to filter loci, and that this will be easier and save storage space.
+- how to generate whitelist for populations?
+	maybe an example here: https://github.com/evansbenj/BIO720/blob/master/5_more_on_Stacks.md
+	use "catalog.tags.tsv" from ref_map.pl
+- I'll plan on trying this (ie skip Brendan's filtering step and running ref_map on unfiltered alignments, and then trying to use the whitelist tag. 
+- immediate next step: align demultiplexed .fq.gz files to updated reference genome! 
+
+# 03/17/2022
+- finished running align_to_genome on all 12 libraries
+- seemingly successful! 
+- immediate next step: make .bed files (full, spaced, functional) for targeted loci based on updated reference genome
+- 1102 alignment files
+	P1: 91  | 364 (91 demultiplexed)
+	P2: 94 (2 did not pool, ELF_49, ELF_155, added to end of plate) | 368 (92, check out b/c ELF_49 and ELF_155 on plate twice but only pooled/in barcodes file once) *** 
+	P3: 91 | 364 (91)
+	P4: 91 | 364 (91)
+	P5: 91 | 364 (91)
+	P6: 91 | 364 (91)
+	P7: 92 | 368 (92)
+	P8: 94 (one did not pool, ELF_877, added to end of plate) | 372 (93, checks out, b/c ELF_877 on plate twice but only pooled/in barcodes file once) ****
+	P9: 93 | 372 (93)
+	P10: 93 | 372 (93) *93 ids in barcodes file.... (EN not on plate map!, there is an alignment file for it... and there are demultiplexed files for it)  
+	P11: 92 | 368 (92) 
+	P12: 92 | 368 (92)
+	1104 samples on plates; 1102 demultiplexed and  1102 alignment files (initially miscounted!) 
+- Looks like alignments were successful, filtered .bam files are stored on my home node, and I am ready to proceed. 
+
+# 03/21/2022
+- Goal: align baits on reference genome and create .bed files
+- Need to:
+	- divide bait .fas file into "functional" and "spaced" --> did this manually on local computer and scp'd to hpcc
+	- align "functional", "spaced", and "all" to genome to make new .bed files using hpcc scripts and Brendan's code 
+	
+# 03/22/2022
+- Goal: calculate coverage 
+- Following Brendan's github
+- Make list of bam files for calculating coverage and filtering: ls *.sort.flt1.bam > filterlist
+- will need to covert coverage comp and coverage summary scripts to my hpcc format
+- going to hit hpcc job limits if I run bedtools coverage on all individuals in one wrapper... 
+	- will split into PCC and ELF!
+ 
+# 03/23/2022
+- finished editing scripts and running jobs to calcualte coverage at targeted loci for ELF and PCC (separately to avoid HPCC job limits) 
+- next: summarize .cov files using Brendan's code
+- adapted script (coverage_summary.sh) from Brendan's code to look at coverage across targeted loci. 
+- some individuals (e.g. ELF_865) have no coverage! 
+- in the case of ELF_865, there was an error during alignment that I did not catch: 
+	[mem_sam_pe] paired reads have different names: "26_2_1231_10773_9001", "26_2_1231_"
+- I should go through and make a list of all individuals who did not have significant coverage at targeted loci, as this is obviously bad, and figure out if it is real or because of an upstream error. 
+
+No/low coverage:
+all EN (I think this is bioinformatic and not because they were water!)
+PCC_25, P6, alignment error, [mem_sam_pe] paired reads have different names: "2", "26_2_1174_6632_28792"
+ELF_893, P1, alignment error, just... didn't work? [W::bseq_read] the 1st file has fewer sequences.
+ELF_865, P4, alignment error, [mem_sam_pe] paired reads have different names: "26_2_1231_10773_9001", "26_2_1231_"
+ELF_753, P4, alignment error, [mem_sam_pe] paired reads have different names: "26_2_1215_6099_2", "26_2_1215_6099_22701"
+ELF_737, P7, alignment error, [mem_sam_pe] paired reads have different names: "26_2_1178_12852_35869", "26_2_1178_12852_358"
+ELF_666, P8, alignment error, [mem_sam_pe] paired reads have different names: "26_2_1213_15031_6731", "26"
+ELF_459, P5, alignment error, [mem_sam_pe] paired reads have different names: "26_2_1208_21088_2", "26_2_1208_21088_20008"
+ELF_390, P8, alignment error, [mem_sam_pe] paired reads have different names: "26_2_1177_7211_36526", "26"
+ELF_383, P10, alignment error, [mem_sam_pe] paired reads have different names: "26_2_1165_14624_19711", "26_2_1165_146"
+ELF_320, P6, alignment error, [mem_sam_pe] paired reads have different names: "26_2_1212_12310_30358", "26_2_12"
+ELF_141, P8, alignment error, just... didn't work? 
+ELF_142, P2, P8, only aligned from P2, alignment error, [mem_sam_pe] paired reads have different names: "26_", "26_2_1224_9399_14606" --> doens't look like it  finished demultiplexing! 
+
+- It looks like more most individuals in the list above, the underlying issue is that one of the demultiplexed reads files for that individual cuts off in the middle of a read name. It is possible that other individuals also did not completely demultiplex, but did not cut off in the middle of a read name, and thus I did not catch them. I need to look into this and probably completely re-run process_radtags once I figure out what was going on. 
+- Rachel and Leonard have had similar issues, but there is no set solution. Rachel suggested adding "wait" to the end of my .sbatch script
+- going to delete some stuff so I have room... backing up EMR_RAPTURE to google drive
+
+# 03/24/2022
+- backup finished
+	- deleting alignments... 
+	- moving .cov files to "first_run_through" for comparison
+	- deleting demultiplexed files
+- re-running process_radtags	
+
+# 03/25/2022
+- new process_radtags run finished, but issues persist
+- some zipped files un-readable by vim? 
+- number of reads written to files not matching up with log file
+- maybe ran out of room on my disk space?
+
+# 03/31/2022
+- ran process_radtags with output going to scratch --> seems to have worked this time! 
+- copied demultiplexed files to google drive b/c they will delete from scratch :( 
+- now need to align files by running align_to_genome on all 12 libraries! 
+- editted align_to_genome script to use demultiplexed files from scratch
+- running P1 to verify that it works
+	Small BAM files sizes...	
+	- PCC_73 --> 25451 forward lines with wc -l (199954 retained reads in log)
+	- ELF_242 --> 27522 forward reads with wc -l (217470 retained reads in log) 
+	- this seems like a small amount compared to the other individuals
+	- ELF_893 also has low reads (2656) --> looks like it failed in the first run too... darn. 
+- Rachel says to use less ./file | wc -l instead of wc -l ./file
+- started all alignment jobs	
+
+# 04/01/2022
+- 1102 alignment files
+
+# 04/06/2022
+- time to calculate coverage on alignment files! 
+- needed to up memory! Looks like only two files have really bad coverage––ELF_893 and ELF_141 
+
+# 04/08/2022
+- I think the coverage summary script is finally running with no bugs! Sheesh. 
+- ELF_893 and ELF_141 have low covere still... will investigate
+	- started off with low reads... maybe bad barcodes? unclear!
+# 04/11/2022
+- ref_map.pl failed because I didn't make the popmap file! making it down using this bash script: 
+		while read inds; do pop=$(echo $inds | cut -d "_" -f 1); echo $pop >> pops_testing.txt; done < ./pops.txt
+- -s tag just doing work... maybe need to rename alignment files? That's so annoying!
+
+# 04/12/2022
+- renamed ./alignments/ as ./filtered_alignments, they are the files that originally had .sort.flt1 in the name! 
+- will run ref_map on these files... spacer tag not working! 
+
+# 04/20/2022
+-  ref_map worked! output in: ./ref_map_output_unfiltered/
+- I think I should follow Brendan's instructions for filtering .bams before running ref_map however
+- it may be possible to isolate loci we are interested in using the whitelist, but there seem to be multiple SNPs on each bait
