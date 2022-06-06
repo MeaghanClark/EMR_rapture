@@ -165,6 +165,7 @@ ELF_142, P2, P8, only aligned from P2, alignment error, [mem_sam_pe] paired read
 #04/21/2022
 - made new filterList files for ELF and PCC b/c I changed .bam names to run ref_map on the unfiltered bams (removed .sort.flt1)
 
+<<<<<<< HEAD
 # 04/26/2022
 - at some point last week I filtered file for rapture loci, just PCC
 - need to wait for simulations to finishe running to run ELF, did not take long
@@ -178,3 +179,9 @@ ELF_142, P2, P8, only aligned from P2, alignment error, [mem_sam_pe] paired read
 
 # 05/12/2022
 - ran ref_map on rapture filtered files
+=======
+
+
+
+
+>>>>>>> e9790f51bef6627bc0b7de6a2badc90b976bd1a8
