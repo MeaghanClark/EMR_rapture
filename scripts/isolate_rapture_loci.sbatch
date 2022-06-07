@@ -8,20 +8,8 @@
 
 #load programs we want to use
 module purge
-<<<<<<< HEAD
-<<<<<<< HEAD
 module load GCC/9.3.0
 module load SAMtools/1.15
-=======
-module load GCC/10.2.0
-module load BEDTools/2.30.0
-module load SAMtools
->>>>>>> e9790f51bef6627bc0b7de6a2badc90b976bd1a8
-=======
-module load GCC/10.2.0
-module load BEDTools/2.30.0
-module load SAMtools
->>>>>>> e9790f51bef6627bc0b7de6a2badc90b976bd1a8
 module load powertools
 module list
 
@@ -43,8 +31,6 @@ echo logfile dir as $LOGFILESDIR
 # calculate coverage using bedtools
 #bedtools coverage -a $BED -b ${INDIR}/${SAMPLE_NAME}.sort.flt1.bam > ${OUTDIR}/${SAMPLE_NAME}.cov
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 # index alignment files
 if [ -e ${INDIR}/${SAMPLE_NAME}.bam.bai ]
 then
@@ -3364,14 +3350,6 @@ Scate-un693:1873-2480 \
 Scate-un871:4482-4797 \
 Scate-un1079:3530-3803 \
 Scate-un1486:964-1544 \
-=======
-# -L tag indicates "Only output alignments overlapping the input BED FILE"
-samtools view -b -h -L $BED -o ${OUTDIR}/${SAMPLE_NAME}.bam ${INDIR}/${SAMPLE_NAME}.bam
->>>>>>> e9790f51bef6627bc0b7de6a2badc90b976bd1a8
-=======
-# -L tag indicates "Only output alignments overlapping the input BED FILE"
-samtools view -b -h -L $BED -o ${OUTDIR}/${SAMPLE_NAME}.bam ${INDIR}/${SAMPLE_NAME}.bam
->>>>>>> e9790f51bef6627bc0b7de6a2badc90b976bd1a8
 
 
 #print some environment variables to stdout for records
