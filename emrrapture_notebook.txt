@@ -165,7 +165,19 @@ ELF_142, P2, P8, only aligned from P2, alignment error, [mem_sam_pe] paired read
 #04/21/2022
 - made new filterList files for ELF and PCC b/c I changed .bam names to run ref_map on the unfiltered bams (removed .sort.flt1)
 
+# 04/26/2022
+- at some point last week I filtered file for rapture loci, just PCC
+- need to wait for simulations to finishe running to run ELF, did not take long
 
+# 05/10/2022
+- 1108 rapture filtered alignment files
+- ELF: 793 rapture alignment files | 793 filtered alignments
+- PCC: 315 rapture alignment files | 297 filtered alignments
+- 18 .cov files for some reason
+- now 1090 alignment files.. should be 1102 OH that's the 12 extraction negative files! Phew!
+
+# 05/12/2022
+- ran ref_map on rapture filtered files
 
 
 

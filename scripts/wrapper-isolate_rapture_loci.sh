@@ -14,11 +14,11 @@ logfilesdir=logfiles_iso_rap #name of directory to create and then write log fil
 executable=./scripts/isolate_rapture_loci.sbatch #script to run 
 
 cpus=1 #number of CPUs to request/use per dataset
-ram_per_cpu=24G #amount of RAM to request/use per CPU CHANGE
+ram_per_cpu=4G #amount of RAM to request/use per CPU CHANGE
 
 run_name=EMR_RAPTURE #label to use on output files
 indir=$storagenode/$run_name/filtered_alignments
-outdir=$storagenode/$run_name/rapture_alignments
+outdir=$storagenode/$run_name/rapture_alignments_keep_pairs
 
 ### change me!
 site=$1 
@@ -55,7 +55,7 @@ do
 			--mem-per-cpu=$ram_per_cpu \
 			--output=./$logfilesdir/${jobname}_%A.out \
 			--error=./$logfilesdir/${jobname}_%A.err \
-			--time=12:00:00 \
+			--time=4:00:00 \
 			$executable
 			
 	echo submitted a job to filter $alignment, reading targeted loci from $bed

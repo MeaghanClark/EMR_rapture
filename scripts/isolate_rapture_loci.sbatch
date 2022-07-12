@@ -8,9 +8,8 @@
 
 #load programs we want to use
 module purge
-module load GCC/10.2.0
-module load BEDTools/2.30.0
-module load SAMtools
+module load GCC/9.3.0
+module load SAMtools/1.15
 module load powertools
 module list
 
@@ -28,6 +27,14 @@ echo indir as $INDIR
 echo outdir as $OUTDIR
 echo logfile dir as $LOGFILESDIR
 
+# index alignment files
+if [ -e ${INDIR}/${SAMPLE_NAME}.bam.bai ]
+then
+	echo index file ${INDIR}/${SAMPLE_NAME}.bam.bai already exits
+else 
+	echo index file ${INDIR}/${SAMPLE_NAME}.bam.bai does not exit... creating index file
+	samtools index ${INDIR}/${SAMPLE_NAME}.bam
+fi
 
 # -L tag indicates "Only output alignments overlapping the input BED FILE"
 samtools view -b -h -L $BED -M -P -o ${OUTDIR}/${SAMPLE_NAME}.bam ${INDIR}/${SAMPLE_NAME}.bam \
@@ -3339,14 +3346,6 @@ Scate-un693:1873-2480 \
 Scate-un871:4482-4797 \
 Scate-un1079:3530-3803 \
 Scate-un1486:964-1544 \
-
-
-
-
-
-
-
-
 
 
 #print some environment variables to stdout for records
