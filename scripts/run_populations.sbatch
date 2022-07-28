@@ -10,7 +10,7 @@ module load Stacks/2.59
 
 echo I am importing: $JOBNAME, $CPUS, $RUN_NAME, $STORAGENODE, $LOGFILESDIR, $INDIR, $OUTDIR, $POPMAP, $M, $N \
 
-populations --in_path $INDIR --popmap $POPMAP -O $OUTDIR -t $CPUS --hwe --fstats --vcf
+populations -P $INDIR --popmap $POPMAP -O $OUTDIR -t $CPUS --hwe --ordered-export --fstats --vcf
 
 echo I have finished running populations
 

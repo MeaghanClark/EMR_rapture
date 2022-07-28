@@ -17,7 +17,7 @@ popmap=popmap.txt
 
 # define where the data is
 indir=rapture_ref_map_keep_pairs_output
-outdir=rapture_ref_map_keep_pairs_output_rerun_71222
+outdir=rapture_ref_map_keep_pairs_output_rerun_72522
 
 cpus=20 #20 #number of CPUs to request/use per dataset 
 ram_per_cpu=15G #15 #amount of RAM to request/use per CPU 
