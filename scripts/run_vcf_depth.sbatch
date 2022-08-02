@@ -13,7 +13,7 @@ module list
 
 export R_LIBS_USER=~/R_Lib/4.0.2
 
-Rscript ${RSCRIPT} --args ${INDIR} ${VCR} ${OUTDIR}
+Rscript ${RSCRIPT} --args ${INDIR} ${VCF} ${OUTDIR}
 
 echo done running rscript
 

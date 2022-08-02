@@ -15,9 +15,9 @@ if (length(args)==0) {
   stop("At least one argument must be supplied (input file).n", call.=FALSE)
 }
 
-INDIR <- args[1]
-VCF <- args[2]
-OUTDIR <- args[3]
+INDIR <- args[2]
+VCF <- args[3]
+OUTDIR <- args[4]
 
 ## loading ------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------

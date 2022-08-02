@@ -19,7 +19,7 @@ outdir=$indir/vcf_depth
 # files
 executable=$storagenode/$run_name/scripts/run_vcf_depth.sbatch #script to run 
 rscript=$storagenode/$run_name/scripts/vcf_depth.R #R script called by executable
-vcf=$indir/populations.snps.vcf
+vcf=populations.snps.vcf
 
 cpus=1 #number of CPUs to request/use per dataset 
 ram_per_cpu=50G #amount of RAM to request/use per CPU;
