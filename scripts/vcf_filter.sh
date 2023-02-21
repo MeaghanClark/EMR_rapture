@@ -10,6 +10,7 @@
 module purge
 module load GCC/6.4.0-2.28
 module load OpenMPI/2.1.2
+module load bcftools/1.9.64
 module list
 
 INPUT=$1
@@ -18,8 +19,8 @@ OUTPUT=$2
 # filter to retain SNPs where 90% of individuals have > 7 reads
 # filter to retain SNPs where 90% of individuals have a GQ > 19
 
-bcftools view -i 'F_PASS(FMT/DP>7) > 0.9' INPUT |
-bcftools view -i 'F_PASS(FMT/GQ>19) > 0.9' -o OUTPUT
+bcftools view -i 'F_PASS(FMT/DP>7) > 0.9' $INPUT |
+bcftools view -i 'F_PASS(FMT/GQ>19) > 0.9' -o $OUTPUT
 
 
 
