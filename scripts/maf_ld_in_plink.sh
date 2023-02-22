@@ -33,4 +33,13 @@ plink --bfile $MAF_OUTPUT --allow-extra-chr --double-id --r2 --out $LD_OUTPUT # 
 
 
 echo ----------------------------------------------------------------------------------------
+# calculate pairwise LD between SNPs in windows of 50 kb with a step size of 5 Kb
+plink --bfile $MAF_OUTPUT --indep-pairwise 50 5
+
+# Calculate physical distance between neighboring SNPs
+plink --bfile $MAF_OUTPUT --extract plink.prune.in --make-bed --out ${LD_OUTPUT}_pruned
+awk '{print $1,$4,$4+$3-$2}' ${LD_OUTPUT}_pruned.bim > ${LD_OUTPUT}_pruned.dist
+
+
+echo ----------------------------------------------------------------------------------------
 echo ----------------------------------------------------------------------------------------
