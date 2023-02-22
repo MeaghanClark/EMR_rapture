@@ -11,25 +11,26 @@
 module load PLINK/1.9b_4.1-x86_64
 
 INPUT=$1
-OUTPUT_NAME=$2
+MAF_OUTPUT=$2
+LD_OUTPUT=$3
 
 
 ## load .vcf, do maf cut off, output vcf
 
-plink2 --vcf $INPUT --maf 0.05 --recode vcf --out $MAF_OUTPUT
+plink --vcf $INPUT --allow-extra-chr --double-id --maf 0.05 --recode vcf --out $MAF_OUTPUT
+
+echo ----------------------------------------------------------------------------------------
 
 ## load maf filtered .vcf and calculate pairwise ld 
 
 # Load the MAF filtered VCF file and turn into plink binary output (bed file)
-plink2 --vcf ${MAF_OUTPUT}.vcf --make-bed --out $MAF_OUTPUT
+plink --vcf ${MAF_OUTPUT}.vcf --allow-extra-chr --double-id --make-bed --out $MAF_OUTPUT
+
+echo ----------------------------------------------------------------------------------------
 
 # Calculate pairwise linkage disequilibrium
-plink2 --bfile $MAF_OUTPUT --r2 --out $LD_OUTPUT # maybe not matrix?
+plink --bfile $MAF_OUTPUT --allow-extra-chr --double-id --r2 --out $LD_OUTPUT # maybe not matrix?
 
 
-#print some environment variables to stdout for records
 echo ----------------------------------------------------------------------------------------
-echo PRINTING SUBSET OF ENVIRONMENT VARIABLES:
-(set -o posix ; set | grep -v ^_ | grep -v ^EB | grep -v ^BASH | grep -v PATH | grep -v LS_COLORS)
-
 echo ----------------------------------------------------------------------------------------
