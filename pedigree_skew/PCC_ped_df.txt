@@ -1,4 +1,4 @@
-"ID"	"DAM"	"SIRE"	"SEX"	"COHORT"
+"id"	"dam"	"sire"	"sex"	"cohort"
 "F0001"	"*"	"*"	"*"	"*"
 "F0002"	"*"	"*"	"*"	"*"
 "F0003"	"*"	"*"	"*"	"*"
