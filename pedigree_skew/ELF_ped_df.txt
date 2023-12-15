@@ -1,4 +1,4 @@
-"id"	"dam"	"sire"	"sex"	"cohort"
+"ID"	"DAM"	"SIRE"	"SEX"	"COHORT"
 "ELF_101"	"*"	"*"	"1"	"1998"
 "ELF_102"	"F0011"	"*"	"2"	"2010"
 "ELF_106"	"ELF_78"	"ELF_45"	"2"	"2010"
