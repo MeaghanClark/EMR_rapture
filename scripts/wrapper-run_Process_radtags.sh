@@ -17,9 +17,9 @@ logfilesdir=logfiles_radtags #name of directory to create and then write log fil
 executable=$storagenode/$run_name/scripts/run_Process_radtags.sbatch #script to run
 
 # define where the data is
-indir=Rawdata
+indir=${scratchnode}/Rawdata
 #outdir=demultiplexed
-lib_ids=lib_id.txt
+lib_ids=lib_id_P1.txt
 
 cpus=1 #number of CPUs to request/use per dataset 
 ram_per_cpu=25G #25 amount of RAM to request/use per CPU 
@@ -28,7 +28,6 @@ ram_per_cpu=25G #25 amount of RAM to request/use per CPU
 #---------------------------------------------------------
 #check if logfiles directory has been created in submit dir yet; if not, make one
 if [ ! -d ./$logfilesdir ]; then mkdir ./$logfilesdir; fi
-#if [ ! -d ./$outdir ]; then mkdir ./$outdir; fi
 
 #submit job to cluster
 
@@ -38,8 +37,8 @@ do
 	reverseread=EMR_${lib_ids}_*R2_001.fastq.gz
 	jobname=${lib_ids}_process_radtags
 	barcodes=$storagenode/$run_name/barcodes/EMR_barcodes_${lib_ids}.txt	
-	outdir=demultiplexed/${lib_ids}
-	if [ ! -d ./$outdir ]; then mkdir ./$outdir; fi
+	outdir=${scratchnode}/demultiplexed/${lib_ids}
+	if [ ! -d $outdir ]; then mkdir $outdir; fi
 
 	sbatch --job-name=$jobname \
 	--export=JOBNAME=$jobname,CPUS=$cpus,RUN_NAME=$run_name,STORAGENODE=$storagenode,SCRATCHNODE=$scratchnode,LOGFILESDIR=$logfilesdir,OUTDIR=$outdir,INDIR=$indir,BARCODES=$barcodes,FORWARDREAD=$forwardread,REVERSEREAD=$reverseread \
