@@ -10,7 +10,7 @@ module load Stacks/2.59
 
 echo I am importing: $JOBNAME, $CPUS, $RUN_NAME, $STORAGENODE, $SCRATCHNODE, $LOGFILESDIR, $OUTDIR, $OUTDIR_CLONE, $FORWARDREAD, $REVERSEREAD, $BARCODES \
 
-process_radtags -1 ./${INDIR}/${FORWARDREAD} -2 ./${INDIR}/${REVERSEREAD} --paired -o ${SCRATCHNODE}/${OUTDIR} -i gzfastq -y gzfastq -b $BARCODES -q -r --bestrad --barcode_dist_1 1 -c -D -e sbfI --inline_null
+process_radtags -1 ${INDIR}/${FORWARDREAD} -2 ${INDIR}/${REVERSEREAD} --paired -o ${OUTDIR} -i gzfastq -y gzfastq -b $BARCODES -q -r --bestrad --barcode_dist_1 1 -c -D -e sbfI --inline_null
 
 wait 
 
