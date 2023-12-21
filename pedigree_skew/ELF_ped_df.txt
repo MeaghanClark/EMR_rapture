@@ -1,3 +1,4 @@
+id	dam	sire	sex	cohort
 ELF_101	*	*	F	1998
 ELF_102	F0011	*	M	2010
 ELF_106	ELF_78	ELF_45	M	2010
