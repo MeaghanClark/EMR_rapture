@@ -738,7 +738,7 @@ spgeo <- spTransform(sputm, CRS("+proj=longlat +datum=WGS84"))
 spgeo@bbox
 
 
-register_google("AIzaSyCJDzIzh11qvcFK3ltqGP1DgpTaf8OkGGo")
+register_google("") # add API key
 
 pdf(file = "../pedigree_exploration/ELF_152.pdf", width = 12, height = 6)
 plot_ELF_lines("ELF_152")
