@@ -602,7 +602,7 @@ dat.df <- cbind.data.frame(dat.df, ordered_scores_PCC_PC1, ordered_scores_PCC_PC
 
 colnames(dat.df) <- c("ID", "age", "year", "long", "lat", "optional", "PC1", "PC2")
 
-# ggmap::register_google("AIzaSyCJDzIzh11qvcFK3ltqGP1DgpTaf8OkGGo")
+# ggmap::register_google("")
 map <- get_map(location = box, maptype = "satellite", source = "google")
 #map <- get_map(location = box, maptype = "terrain-background", source = "stamen")
 
